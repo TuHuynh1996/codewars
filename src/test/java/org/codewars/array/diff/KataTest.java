@@ -1,4 +1,4 @@
-package array.diff;
+package org.codewars.array.diff;
 
 import org.junit.jupiter.api.Test;
 
