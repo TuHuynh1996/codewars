@@ -1,43 +1,13 @@
 package org.codewars.four_squares;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigInteger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class StaticTests {
-    @Test
-    public void Test1SmallInputs() {
-        BigInteger[] result = new BigInteger[4];
-
-        result = FourSquares.GetRepresentation(new BigInteger("0"));
-        assertEquals(new BigInteger("0"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("1234567890"));
-        assertEquals(new BigInteger("1234567890"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("17"));
-        assertEquals(new BigInteger("17"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("215"));
-        assertEquals(new BigInteger("215"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("215"));
-        assertEquals(new BigInteger("215"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("333"));
-        assertEquals(new BigInteger("333"), processResult(result));
-
-        result = FourSquares.GetRepresentation(new BigInteger("4093123"));
-        assertEquals(new BigInteger("4093123"), processResult(result));
-//
-//        result = FourSquares.GetRepresentation(new BigInteger("11234567890"));
-//        assertEquals(new BigInteger("11234567890"), processResult(result));
-
-//        result = FourSquares.GetRepresentation(new BigInteger("10636924936557535283"));
-//        assertEquals(new BigInteger("10636924936557535283"), processResult(result));
-    }
-
-    private static final BigInteger processResult(BigInteger[] result){
+    private static final BigInteger processResult(BigInteger[] result) {
         BigInteger n = new BigInteger("0");
         BigInteger c = new BigInteger("1");
 
@@ -58,5 +28,16 @@ class StaticTests {
         n = n.add(c);
 
         return n;
+    }
+
+    @Test
+    public void Test1SmallInputs() {
+        BigInteger[] result = new BigInteger[4];
+        result = FourSquares.GetRepresentation(new BigInteger("215"));
+        assertEquals(new BigInteger("215"), processResult(result));
+        result = FourSquares.GetRepresentation(new BigInteger("8056870485"));
+        assertEquals(new BigInteger("8056870485"), processResult(result));
+        result = FourSquares.GetRepresentation(new BigInteger("805687048580568704858056870485"));
+        assertEquals(new BigInteger("805687048580568704858056870485"), processResult(result));
     }
 }
