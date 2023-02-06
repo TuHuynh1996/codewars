@@ -3,10 +3,10 @@ package org.codewars.four_squares;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.HashSet;
-import java.util.Set;
 
 public class FourSquares {
+    private static BigInteger four = BigInteger.valueOf(4);
+
     /**
      * Recently you had a quarrel with your math teacher. Not only that nerd demands knowledge of all the theorems,
      * but he turned to be an constructivist devotee! After you recited by heart Lagranges theorem(https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem) of sum of four squares,
@@ -25,48 +25,39 @@ public class FourSquares {
         result[1] = BigInteger.ZERO;
         result[2] = BigInteger.ZERO;
         result[3] = BigInteger.ZERO;
-        if (n.equals(BigInteger.ONE)) {
-            result[0] = BigInteger.ONE;
+        if (n.equals(BigInteger.ZERO)) {
+            result[0] = BigInteger.ZERO;
             return result;
         }
-        BigInteger result1 = findSqrt(n);;
-        BigInteger result234;
+        BigInteger result1 = findSqrt(n);
         while (true) {
-            result234 = n.subtract(result1.multiply(result1));
-            if(isThreeSquare(result234)) {
-                break;
-            }
-            result1 = result1.subtract(BigInteger.ONE);
-        }
+            BigInteger num234Squares = n.subtract(result1.multiply(result1));
+            System.out.println("result1: " + result1);
+            BigInteger result2 = findSqrt(num234Squares);
 
-
-        Set<Integer> set = new HashSet<>();
-        int i = 0;
-        for (long j = 0; result1.compareTo(BigInteger.valueOf(j)) >= 0; j++) {
-            System.out.println("loop count " + ++i + "/" + result1);
-            BigInteger num34Squares = n.subtract(result1.multiply(result1)).subtract(BigInteger.valueOf(j * j));
+            BigInteger num34Squares = num234Squares.subtract(result2.multiply(result2));
             int num = num34Squares.remainder(BigInteger.valueOf(4)).intValue();
-            if (num == 1) {
-                System.out.println("num ="+ i + "/ " + num34Squares);
-                for (BigInteger result3 = BigInteger.ZERO; result3.compareTo(findSqrt(num34Squares)) <= 0; result3 = result3.add(BigInteger.ONE)) {
-                    BigInteger result4 = findSqrt(num34Squares.subtract(result3.multiply(result3)));
-//                    System.out.println("loop count " + ++i + "/");
-                    if (result3.multiply(result3).add(result4.multiply(result4)).equals(num34Squares)) {
+            if (num != 3) {
+                System.out.println("num34Squares: " + num34Squares);
+                BigInteger result34 = findSqrt(num34Squares);
+                for (BigInteger result3 = result34; result3.compareTo(result3.divide(BigInteger.TWO)) >= 0; result3 = result3.subtract(BigInteger.ONE)) {
+                    BigInteger num4Squares = num34Squares.subtract(result3.multiply(result3));
+                    BigInteger result4 = findSqrt(num4Squares);
+                    if (result4.multiply(result4).equals(num4Squares)) {
                         result[0] = result1;
-                        result[1] = BigInteger.valueOf(j);
+                        result[1] = result2;
                         result[2] = result3;
                         result[3] = result4;
                         System.out.println(result[0] + ", " + result[1] + ", " + result[2] + ", " + result[3]);
                         return result;
                     }
                 }
-            } else if (!set.add(num)) {
                 result1 = result1.subtract(BigInteger.ONE);
-                set = new HashSet<>();
-                j = -1;
+            } else {
+                result1 = result1.subtract(BigInteger.ONE);
+                continue;
             }
         }
-        return result;
     }
 
     private static BigInteger findSqrt(BigInteger n) {
@@ -74,30 +65,4 @@ public class FourSquares {
         return bigDecimal.setScale(0, RoundingMode.FLOOR).toBigInteger();
     }
 
-    public static boolean isPrime(BigInteger n) {
-        if (n.equals(BigInteger.ONE)) {
-            return false;
-        }
-        for (BigInteger i = BigInteger.TWO; i.compareTo(n.sqrt()) <= 0; i = i.add(BigInteger.ONE)) {
-            if (n.remainder(i).intValue() == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     *  n != 4^a(8b+7)
-     * @param n
-     * @return
-     */
-    public static boolean  isThreeSquare(BigInteger n){
-        while (n.compareTo(BigInteger.ZERO)>=0 && n.remainder(BigInteger.valueOf(4)).intValue() != 0) {
-            if(n.remainder(BigInteger.valueOf(8)).intValue() != 7) {
-                return true;
-            }
-            n = new BigDecimal(n.divide(BigInteger.valueOf(4))).setScale(0, RoundingMode.FLOOR).toBigInteger() ;
-        }
-        return false;
-    }
 }
